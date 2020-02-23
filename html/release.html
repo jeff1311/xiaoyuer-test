@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>release</title>
+    <style>
+        body{
+            margin:0;
+            padding:0;
+        }
+        .container{
+            width:600px;
+            height:800px;
+            /* border:solid 1px gray; */
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+        #params input{
+            width:300px;
+            height:50px;
+            display: block;
+            margin-top:15px;
+            margin-left: auto;
+            margin-right: auto;
+            border:none;
+            font-size: 14px;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline:none;
+            background-color: rgba(255,255,255,0.7);
+            /* border: solid 1px rgba(255,255,255,0.8); */
+            border: 1px #d9d9d9 solid;
+            padding-left: 5px;
+        }
+        #submit{
+            cursor: pointer;
+        }
+        .area{
+            width:300px;
+            height:50px;
+            display: block;
+            margin-top:15px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 0px;
+        }
+        .area input{
+            margin:0px !important;
+            padding-right:-5px !important;
+            margin-right: 15px !important;
+            width:90px !important;
+            display: inline-block !important;
+        }
+        .area :last-child{
+            margin-right: 0px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <form id="params">
+            <input type="text" autocomplete="off" id="id" placeholder="客户平台每需求唯一id" value="100001">
+            <input type="text" autocomplete="off" id="reqTitle" placeholder="需求标题" value="测试需求001">
+            <input type="text" autocomplete="off" id="reqDes" placeholder="需求内容" value="测试内容测试内容测试内容测试内容">
+            <input type="text" autocomplete="off" id="reqAmount" placeholder="需求金额" value="30000">
+            <input type="text" autocomplete="off" id="serNumber" placeholder="服务人数" value="3">
+            <input type="text" autocomplete="off" id="startTime" placeholder="开始时间" value="2020-02-23">
+            <input type="text" autocomplete="off" id="endTime" placeholder="结束时间" value="2020-02-28">
+            <input type="text" autocomplete="off" id="class" placeholder="需求分类" value="390">
+            <div class="area">
+                <input type="text" autocomplete="off" id="province" placeholder="省" value="2" class="area">
+                <input type="text" autocomplete="off" id="city" placeholder="市" value="3" class="area">
+                <input type="text" autocomplete="off" id="district" placeholder="区" value="4" class="area">
+            </div>
+            <input type="button" id="submit" value="提交">
+        </form>
+
+    </div>
+</body>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/md5.js"></script>
+<script src="/js/xye-sign.js"></script>
+<script src="https://www1.xiaoyuer.net/js/G/BaseClassifyJson.js"></script>
+<script src="https://www.xiaoyuer.net/js/open/area.js"></script>
+<script>
+
+    console.log(XYE.categoryData);
+    console.log(provinceList);
+    for (const province in provinceList) {
+        
+    }
+
+    var params;//参数
+    var xyeAct = "18761637019_36";
+    var openNo = "021701320";
+    var secret = "62B2F6D457243FBD49B5E39C5D6E41A3";
+    // var xyeAct = "18761637019_1";
+    // var openNo = "021809498";
+    // var secret = "934FEE184EF0CD76505E02F14DC45606";
+    function initParams(){
+        //获取动小鱼儿态口令
+        $.ajax({
+            // url:'https://www1.xiaoyuer.net/open-api/genKey',
+            url:'http://192.168.0.103:8080/open-api/genKey',
+            type:'get',
+            data:{
+                xyeAct:xyeAct,
+                openNo:openNo,
+                secret:secret
+            },
+            dataType:'json',
+            async: false, // 同步
+            success:function(json){
+                console.log(json);
+                if(json.code == '00000'){
+                    var timetamp = new Date().format('yyyyMMddhhmmss');
+                    params = {
+                        'xyeAct':xyeAct,
+                        'openNo':openNo,
+                        'token':json.token,
+                        'timestamp':timetamp,
+                        'id':$('#id').val(),
+                        'reqTitle':$('#reqTitle').val(),
+                        'reqDes':$('#reqDes').val(),
+                        'reqAmount':$('#reqAmount').val(),
+                        'serNumber':$('#serNumber').val(),
+                        'startTime':$('#startTime').val(),
+                        'endTime':$('#endTime').val(),
+                        'class':$('#class').val(),
+                        'province':$('#province').val(),
+                        'city':$('#city').val(),
+                        'district':$('#district').val()
+                    };
+                    console.log(params);
+                }
+            }
+        })
+    }
+
+    $('#submit').click(function(){
+        //初始化参数
+        initParams();
+        //参数加签
+        params.sign = sign(params,secret);
+        $.ajax({
+            // url:'https://www1.xiaoyuer.net/open-api/trade/require/release',
+            url:'http://192.168.0.103:8080/open-api/trade/require/release',
+            type:'post',
+            data:params,
+            dataType:"json",
+            success:function(json){
+                console.log(json);
+                if(json.code == '00000'){
+                    
+                }else{
+                    alert(json.msg);
+                }
+            }
+        });
+    });
+
+</script>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>register</title>
+    <style>
+        body{
+            margin:0;
+            padding:0;
+        }
+        .container{
+            width:600px;
+            height:800px;
+            /* border:solid 1px gray; */
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+        #params input{
+            width:300px;
+            height:50px;
+            display: block;
+            margin-top:15px;
+            margin-left: auto;
+            margin-right: auto;
+            border:none;
+            font-size: 14px;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline:none;
+            background-color: rgba(255,255,255,0.7);
+            /* border: solid 1px rgba(255,255,255,0.8); */
+            border: 1px #d9d9d9 solid;
+            padding-left: 5px;
+        }
+        #submit{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <form id="params">
+            <input type="text" autocomplete="off" id="name" placeholder="真实姓名" value="小刘">
+            <input type="text" autocomplete="off" id="cellphone" placeholder="手机号" value="18761637019">
+            <input type="text" autocomplete="off" id="certNo" placeholder="证件号" value="110101199003078232">
+            <input type="text" autocomplete="off" id="certDate" placeholder="证件有效期" value="2020-10-10">
+            <input type="text" autocomplete="off" id="address" placeholder="证件地址" value="北京市朝阳区天安门">
+            <input type="text" autocomplete="off" id="certFront" placeholder="证件正面URL" value="https://img.ivsky.com/img/bizhi/pre/201910/27/weathering_with_you-002.jpg">
+            <input type="text" autocomplete="off" id="certBack" placeholder="证件反面URL" value="https://img.ivsky.com/img/bizhi/pre/201910/27/weathering_with_you-005.jpg">
+            <input type="text" autocomplete="off" id="signature" placeholder="签名图片URL" value="https://img.ivsky.com/img/bizhi/pre/201910/27/weathering_with_you.jpg">
+            <input type="hidden" id="type" value="0">
+            <input type="hidden" id="callbackUrl" value="https://www.xiaoyuer.com">
+            <input type="button" id="submit" value="提交">
+        </form>
+
+    </div>
+</body>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/md5.js"></script>
+<script src="/js/xye-sign.js"></script>
+<script>
+
+    var params;//参数
+    // var xyeAct = "18761637019_36";
+    // var openNo = "021701320";
+    // var secret = "62B2F6D457243FBD49B5E39C5D6E41A3";
+    var xyeAct = "18761637019_1";
+    var openNo = "021809498";
+    var secret = "934FEE184EF0CD76505E02F14DC45606";
+    function initParams(){
+        //获取动小鱼儿态口令
+        $.ajax({
+            url:'https://www1.xiaoyuer.net/open-api/genKey',
+            type:'get',
+            data:{
+                xyeAct:xyeAct,
+                openNo:openNo,
+                secret:secret
+            },
+            dataType:'json',
+            async: false, // 同步
+            success:function(json){
+                console.log(json);
+                if(json.code == '00000'){
+                    var timetamp = new Date().format('yyyyMMddhhmmss');
+                    params = {
+                        'xyeAct':xyeAct,
+                        'openNo':openNo,
+                        'token':json.token,
+                        'timestamp':timetamp,
+                        'name':$('#name').val(),
+                        'cellphone':$('#cellphone').val(),
+                        'certNo':$('#certNo').val(),
+                        'certDate':$('#certDate').val(),
+                        'address':$('#address').val(),
+                        'certFront':$('#certFront').val(),
+                        'certBack':$('#certBack').val(),
+                        'signature':$('#signature').val(),
+                        'type':$('#type').val(),
+                        'callbackUrl':$('#callbackUrl').val()
+                    };
+                    console.log(params);
+                }
+            }
+        })
+    }
+
+
+    $('#submit').click(function(){
+        //初始化参数
+        initParams();
+        //参数加签
+        params.sign = sign(params,secret);
+        $.ajax({
+            url:'https://www1.xiaoyuer.net/open-api/register',
+            type:'post',
+            data:params,
+            dataType:"json",
+            success:function(json){
+                console.log(json);
+                if(json.code == '00000'){
+                    
+                }else{
+                    alert(json.msg);
+                }
+            }
+        });
+    });
+
+    // $.ajax({
+    //     url:'https://www.xiaoyuer.net/open-api/genKey',
+    //     type:'get',
+    //     data:{
+    //         xyeAct:'15921638245',
+    //         openNo:'021803069',
+    //         secret:'87AC305F8EFB6AB2FA8BF194DA02D8A1'
+    //     },
+    //     dataType:'json',
+    //     async: false, // 同步
+    //     success:function(json){
+    //         console.log(json);
+    //     }
+    // })
+
+</script>
+</html>
