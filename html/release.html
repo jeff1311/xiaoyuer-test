@@ -24,6 +24,10 @@
             margin-top: auto;
             margin-bottom: auto;
         }
+        #params{
+            float:left;
+            /* border:solid 1px gray; */
+        }
         #params input{
             width:300px;
             height:50px;
@@ -64,27 +68,54 @@
         .area :last-child{
             margin-right: 0px !important;
         }
+        .names{
+            float:left;
+            /* width: 200px; */
+            /* height: 100px; */
+            margin-right:20px;
+            /* border:solid 1px gray; */
+        }
+        .names div{
+            width:150px;
+            height:50px;
+            margin-top:15px;
+            /* border:solid 1px gray; */
+            line-height: 50px;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
     <div class="container">
 
-        <form id="params">
-            <input type="text" autocomplete="off" id="id" placeholder="客户平台每需求唯一id" value="100001">
-            <input type="text" autocomplete="off" id="reqTitle" placeholder="需求标题" value="测试需求001">
-            <input type="text" autocomplete="off" id="reqDes" placeholder="需求内容" value="测试内容测试内容测试内容测试内容">
-            <input type="text" autocomplete="off" id="reqAmount" placeholder="需求金额" value="30000">
-            <input type="text" autocomplete="off" id="serNumber" placeholder="服务人数" value="3">
-            <input type="text" autocomplete="off" id="startTime" placeholder="开始时间" value="2020-02-23">
-            <input type="text" autocomplete="off" id="endTime" placeholder="结束时间" value="2020-02-28">
-            <input type="text" autocomplete="off" id="class" placeholder="需求分类" value="390">
+        <div class="names">
+            <div>客户平台需求ID:</div>
+            <div>需求标题:</div>
+            <div>需求内容:</div>
+            <div>需求金额:</div>
+            <div>服务人数:</div>
+            <div>开始时间:</div>
+            <div>结束时间:</div>
+            <div>需求分类:</div>
+            <div>需求地点:</div>
+        </div>
+
+        <div id="params">
+            <input type="text" autocomplete="off" id="id" value="100001">
+            <input type="text" autocomplete="off" id="reqTitle" value="测试需求001">
+            <input type="text" autocomplete="off" id="reqDes" value="测试内容测试内容测试内容测试内容">
+            <input type="text" autocomplete="off" id="reqAmount" value="30000">
+            <input type="text" autocomplete="off" id="serNumber" value="3">
+            <input type="text" autocomplete="off" id="startTime" value="20200228000000">
+            <input type="text" autocomplete="off" id="endTime" value="20200230000000">
+            <input type="text" autocomplete="off" id="class" value="390">
             <div class="area">
                 <input type="text" autocomplete="off" id="province" placeholder="省" value="2" class="area">
                 <input type="text" autocomplete="off" id="city" placeholder="市" value="3" class="area">
                 <input type="text" autocomplete="off" id="district" placeholder="区" value="4" class="area">
             </div>
             <input type="button" id="submit" value="提交">
-        </form>
+        </div>
 
     </div>
 </body>
@@ -101,6 +132,9 @@
         
     }
 
+    var baseUrl = "https://www.yu.com";
+    // var baseUrl = "https://www1.xiaoyuer.net";
+
     var params;//参数
     var xyeAct = "18761637019_36";
     var openNo = "021701320";
@@ -111,8 +145,7 @@
     function initParams(){
         //获取动小鱼儿态口令
         $.ajax({
-            // url:'https://www1.xiaoyuer.net/open-api/genKey',
-            url:'http://192.168.0.103:8080/open-api/genKey',
+            url:baseUrl + '/open-api/genKey',
             type:'get',
             data:{
                 xyeAct:xyeAct,
@@ -152,17 +185,20 @@
         //初始化参数
         initParams();
         //参数加签
-        params.sign = sign(params,secret);
+        //排除项
+        var ignoreList = ['reqDes'];
+        //不同的引用
+        var paramsList = JSON.parse(JSON.stringify(params));
+        params.sign = sign(paramsList,ignoreList,secret);
         $.ajax({
-            // url:'https://www1.xiaoyuer.net/open-api/trade/require/release',
-            url:'http://192.168.0.103:8080/open-api/trade/require/release',
+            url:baseUrl + '/open-api/trade/require/release',
             type:'post',
             data:params,
             dataType:"json",
             success:function(json){
                 console.log(json);
                 if(json.code == '00000'){
-                    
+                    alert('发布成功！');
                 }else{
                     alert(json.msg);
                 }

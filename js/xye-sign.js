@@ -25,7 +25,13 @@ Date.prototype.format = function(fmt) {
 
 
 //参数加签
-function sign(params,secret){
+function sign(params,ignoreList,secret){
+    //排除
+    for (const i in ignoreList) {
+        var key = ignoreList[i];
+        delete params[key];
+    }
+    console.log(params);
     //按key首字母排序
     //取出json的key组成数组
     var keyArr = [];
