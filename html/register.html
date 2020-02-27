@@ -24,6 +24,10 @@
             margin-top: auto;
             margin-bottom: auto;
         }
+        #params{
+            float:left;
+            /* border:solid 1px gray; */
+        }
         #params input{
             width:300px;
             height:50px;
@@ -45,12 +49,38 @@
         #submit{
             cursor: pointer;
         }
+        .names{
+            float:left;
+            /* width: 200px; */
+            /* height: 100px; */
+            margin-right:20px;
+            /* border:solid 1px gray; */
+        }
+        .names div{
+            width:150px;
+            height:50px;
+            margin-top:15px;
+            /* border:solid 1px gray; */
+            line-height: 50px;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
     <div class="container">
 
-        <form id="params">
+        <div class="names">
+            <div>真实姓名:</div>
+            <div>手机号:</div>
+            <div>证件号:</div>
+            <div>证件有效期:</div>
+            <div>证件地址:</div>
+            <div>证件正面URL:</div>
+            <div>证件反面URL:</div>
+            <div>签名图片URL:</div>
+        </div>
+
+        <div id="params">
             <input type="text" autocomplete="off" id="name" placeholder="真实姓名" value="小刘">
             <input type="text" autocomplete="off" id="cellphone" placeholder="手机号" value="18761637019">
             <input type="text" autocomplete="off" id="certNo" placeholder="证件号" value="110101199003078232">
@@ -62,26 +92,21 @@
             <input type="hidden" id="type" value="0">
             <input type="hidden" id="callbackUrl" value="https://www.xiaoyuer.com">
             <input type="button" id="submit" value="提交">
-        </form>
+        </div>
 
     </div>
 </body>
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="/js/md5.js"></script>
 <script src="/js/xye-sign.js"></script>
+<script src="/js/xye-params.js"></script>
 <script>
 
     var params;//参数
-    // var xyeAct = "18761637019_36";
-    // var openNo = "021701320";
-    // var secret = "62B2F6D457243FBD49B5E39C5D6E41A3";
-    var xyeAct = "18761637019_1";
-    var openNo = "021809498";
-    var secret = "934FEE184EF0CD76505E02F14DC45606";
     function initParams(){
         //获取动小鱼儿态口令
         $.ajax({
-            url:'https://www1.xiaoyuer.net/open-api/genKey',
+            url:baseUrl + '/open-api/genKey',
             type:'get',
             data:{
                 xyeAct:xyeAct,
@@ -123,7 +148,7 @@
         //参数加签
         params.sign = sign(params,secret);
         $.ajax({
-            url:'https://www1.xiaoyuer.net/open-api/register',
+            url:baseUrl + '/open-api/register',
             type:'post',
             data:params,
             dataType:"json",

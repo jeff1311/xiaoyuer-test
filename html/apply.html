@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>apply</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <style>
+        body{
+            margin:0;
+            padding:0;
+        }
+        .container{
+            width:900px;
+            height:800px;
+            /* border:solid 1px gray; */
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+        #servicers{
+            margin-bottom:10px;
+        }
+        .servicer{
+            margin-top:10px;
+        }
+        .servicer div{
+            margin-right:10px;
+        }
+        .servicer div:last-child{
+            margin-right:0px;
+        }
+        .callbackUrl input{
+            width:695px;
+            margin-bottom: 10px;
+        }
+        #submit{
+            background-color:#5FB878;
+        }
+        #add{
+            background-color:#01AAED;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="layui-row">
+            <label class="layui-form-label">需求ID</label>
+            <div class="layui-col-md3">
+                <input type="text" autocomplete="off" class="layui-input" placeholder="需求ID" name="reqId">
+            </div>
+        </div>
+        <div id="servicers">
+            <div class="layui-row servicer">
+                <label class="layui-form-label">服务者01</label>
+                <div class="layui-col-md3">
+                    <input type="text" autocomplete="off" class="layui-input" placeholder="手机号" name="cellphone">
+                </div>
+                <div class="layui-col-md3">
+                    <input type="text" autocomplete="off" class="layui-input" placeholder="身份证号"name="certNo">
+                </div>
+                <div class="layui-col-md3">
+                    <input type="text" autocomplete="off" class="layui-input" placeholder="报名金额" name="amount">
+                </div>
+            </div>
+        </div>
+        <div class="layui-row callbackUrl">
+            <label class="layui-form-label">回调地址</label>
+            <div class="layui-input-block">
+                <input type="text" autocomplete="off" class="layui-input" placeholder="回调地址" id="callbackUrl">
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-input-block">
+                <button class="layui-btn" id="submit" >立即报名</button>
+                <button class="layui-btn" id="add">增加服务者</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/md5.js"></script>
+<script src="/js/xye-sign.js"></script>
+<script src="/js/xye-params.js"></script>
+<script src="/layui/layui.js"></script>
+<script>
+
+    layui.use(['layer'],function(){
+        var layer = layui.layer;
+        
+
+
+
+
+        $('#add').click(function(){
+            getApplyList();
+            var servicers = $('#servicers .servicer');
+            var num = servicers.length + 1 > 9 ? servicers.length + 1 : "0" + (servicers.length + 1); 
+            var html = ['<div class="layui-row servicer">',
+                        '	<label class="layui-form-label">服务者' + num + '</label>',
+                        '	<div class="layui-col-md3">',
+                        '		<input type="text" autocomplete="off" class="layui-input" placeholder="手机号" name="cellphone">',
+                        '	</div>',
+                        '	<div class="layui-col-md3">',
+                        '		<input type="text" autocomplete="off" class="layui-input" placeholder="身份证号" name="certNo">',
+                        '	</div>',
+                        '	<div class="layui-col-md3">',
+                        '		<input type="text" autocomplete="off" class="layui-input" placeholder="报名金额" name="amount">',
+                        '	</div>',
+                        '</div>'].join("");;
+            $('#servicers').append(html);
+        });
+
+
+        function getApplyList(){
+            var servicers = new Array();
+            $('#servicers .servicer').each(function(){
+                var cellphone = $(this).find('input[name=cellphone]').val();
+                var certNo = $(this).find('input[name=certNo]').val();
+                var amount = $(this).find('input[name=amount]').val();
+                var servicer = {
+                    cellphone:cellphone,
+                    certNo:certNo,
+                    amount:amount
+                }
+                servicers.push(servicer);
+            });
+            return JSON.stringify(servicers);
+        }
+
+
+
+
+
+
+        var params;//参数
+        function initParams(){
+            //获取动小鱼儿态口令
+            $.ajax({
+                url:baseUrl + '/open-api/genKey',
+                type:'get',
+                data:{
+                    xyeAct:xyeAct,
+                    openNo:openNo,
+                    secret:secret
+                },
+                dataType:'json',
+                async: false, // 同步
+                success:function(json){
+                    console.log(json);
+                    if(json.code == '00000'){
+                        var timetamp = new Date().format('yyyyMMddhhmmss');
+                        params = {
+                            'xyeAct':xyeAct,
+                            'openNo':openNo,
+                            'token':json.token,
+                            'timestamp':timetamp,
+                            'reqId':$('#reqId').val(),
+                            'applyList':getApplyList(),
+                            'callbackUrl':$('#callbackUrl').val()
+                        };
+                        console.log(params);
+                    }
+                }
+            })
+        }
+    
+        $('#submit').click(function(){
+            //初始化参数
+            initParams();
+            //参数加签
+            //排除项
+            var ignoreList = ['reqDes'];
+            //不同的引用
+            var paramsList = JSON.parse(JSON.stringify(params));
+            params.sign = sign(paramsList,ignoreList,secret);
+            $.ajax({
+                url:baseUrl + '/open-api/trade/require/apply',
+                type:'post',
+                data:params,
+                dataType:"json",
+                success:function(json){
+                    console.log(json);
+                    if(json.code == '00000'){
+                        layer.msg('报名成功！');
+                    }else{
+                        layer.msg(json.msg);
+                    }
+                }
+            });
+        });
+
+
+        
+
+    });
+
+
+
+</script>
+</html>
