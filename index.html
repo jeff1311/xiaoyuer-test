@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>index</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            background-color: #F2F2F2;
+        }
+        .layui-row{
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .layui-row div{
+            color:white;
+            font-size: 15px;
+        }
+        .layui-nav{
+            float: left;
+            width:12%;
+            height:100%;
+            z-index: 101;
+            border-radius: 0px !important;
+        }
+        #main{
+            float: left;
+            width:85%;
+            height:100%;
+            background-color:cornflowerblue;
+        }
+        #win{
+            position:absolute;
+            width:100%;
+            height:100%;
+            /* border:solid 1px gray; */
+        }
+        .focus{
+            background-color:#4E5465;
+        }
+        #block{
+            height:80px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="win">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <div id="block"></div>
+            <li class="layui-nav-item">
+                <a href="javascript:;" onclick="switchHtml(this)" src="/html/account.html">颁发客户号</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;" onclick="switchHtml(this)" src="/html/register.html">需求者代注册服务者</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;" onclick="switchHtml(this)" src="/html/release.html">需求者发布需求</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;" onclick="switchHtml(this)" src="/html/apply.html">需求者代报名需求</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;" onclick="switchHtml(this)" src="/html/submit.html">服务者提交验收</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;" onclick="switchHtml(this)" src="/html/accept.html">需求者确认付款</a>
+            </li>
+        </ul>
+
+        <div id="main">
+            <iframe src="/html/register.html" id="iframe" height="100%" width="100%" frameborder="0" scrolling="auto" style="position: relative;;z-index: 100;"></iframe>
+        </div>
+    </div>
+
+    
+</body>
+<script src="/layui/layui.js"></script>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script>
+
+    function switchHtml(that){
+        $('a').parent().removeClass('focus');
+        $(that).parent().addClass('focus');
+        var src = $(that).attr('src');
+        // console.log(src);
+        $('#iframe').prop('src',src);
+    }
+
+    // $.ajax({
+    //     url:'https://www.xiaoyuer.net/open-api/genKey',
+    //     type:'get',
+    //     data:{
+    //         xyeAct:'15921638245',
+    //         openNo:'021803069',
+    //         secret:'87AC305F8EFB6AB2FA8BF194DA02D8A1'
+    //     },
+    //     dataType:'json',
+    //     success:function(json){
+    //         console.log(json);
+    //     }
+    // })
+
+</script>
+</html>

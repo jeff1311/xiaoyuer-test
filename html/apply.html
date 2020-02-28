@@ -7,9 +7,16 @@
     <title>apply</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
     <style>
+        /* *{
+            transition: all 2s;
+            -moz-transition: all 2s;
+            -webkit-transition: all 2s;
+            -o-transition: all 2s;
+        } */
         body{
             margin:0;
             padding:0;
+            background-color: #F2F2F2;
         }
         .container{
             width:900px;
@@ -38,52 +45,72 @@
             margin-right:0px;
         }
         .callbackUrl input{
-            width:695px;
+            width:672px;
             margin-bottom: 10px;
         }
         #submit{
+            width:217px;
             background-color:#5FB878;
         }
         #add{
             background-color:#01AAED;
         }
+        .layui-card-body *{
+            font-size: 12px;
+        }
+        .btn-row{
+            margin-bottom: 10px;
+        }
+        .first-row{
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
+    
     <div class="container">
 
-        <div class="layui-row">
-            <label class="layui-form-label">需求ID</label>
-            <div class="layui-col-md3">
-                <input type="text" autocomplete="off" class="layui-input" placeholder="需求ID" name="reqId">
-            </div>
-        </div>
-        <div id="servicers">
-            <div class="layui-row servicer">
-                <label class="layui-form-label">服务者01</label>
-                <div class="layui-col-md3">
-                    <input type="text" autocomplete="off" class="layui-input" placeholder="手机号" name="cellphone">
+            <div class="layui-card">
+                <div class="layui-card-header">报名需求</div>
+                <div class="layui-card-body">
+                    
+                    <div class="layui-row">
+                        <label class="layui-form-label">需求ID</label>
+                        <div class="layui-col-md3 first-row">
+                            <input type="text" autocomplete="off" class="layui-input" placeholder="需求ID" name="reqId">
+                        </div>
+                        <div class="layui-col-md3 first-row">
+                            <button class="layui-btn" id="add"><i class="layui-icon">&#xe608;</i> 增加服务者</button>
+                        </div>
+                    </div>
+                    <div id="servicers">
+                        <div class="layui-row servicer">
+                            <label class="layui-form-label">服务者01</label>
+                            <div class="layui-col-md3">
+                                <input type="text" autocomplete="off" class="layui-input" placeholder="手机号" name="cellphone">
+                            </div>
+                            <div class="layui-col-md3">
+                                <input type="text" autocomplete="off" class="layui-input" placeholder="身份证号"name="certNo">
+                            </div>
+                            <div class="layui-col-md3">
+                                <input type="text" autocomplete="off" class="layui-input" placeholder="报名金额" name="amount">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row callbackUrl">
+                        <label class="layui-form-label">回调地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" autocomplete="off" class="layui-input" placeholder="回调地址" id="callbackUrl">
+                        </div>
+                    </div>
+                    <div class="layui-row btn-row">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" id="submit" >立即报名</button>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="layui-col-md3">
-                    <input type="text" autocomplete="off" class="layui-input" placeholder="身份证号"name="certNo">
-                </div>
-                <div class="layui-col-md3">
-                    <input type="text" autocomplete="off" class="layui-input" placeholder="报名金额" name="amount">
-                </div>
             </div>
-        </div>
-        <div class="layui-row callbackUrl">
-            <label class="layui-form-label">回调地址</label>
-            <div class="layui-input-block">
-                <input type="text" autocomplete="off" class="layui-input" placeholder="回调地址" id="callbackUrl">
-            </div>
-        </div>
-        <div class="layui-row">
-            <div class="layui-input-block">
-                <button class="layui-btn" id="submit" >立即报名</button>
-                <button class="layui-btn" id="add">增加服务者</button>
-            </div>
-        </div>
 
     </div>
 </body>

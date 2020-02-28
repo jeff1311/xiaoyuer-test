@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>release</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
     <style>
         body{
             margin:0;
             padding:0;
+            background-color: #F2F2F2;
         }
         .container{
-            width:600px;
+            width:900px;
             height:800px;
             /* border:solid 1px gray; */
             left: 0;
@@ -24,98 +26,103 @@
             margin-top: auto;
             margin-bottom: auto;
         }
-        #params{
-            float:left;
-            /* border:solid 1px gray; */
+        .layui-card-body *{
+            font-size: 12px;
         }
-        #params input{
-            width:300px;
-            height:50px;
-            display: block;
-            margin-top:15px;
-            margin-left: auto;
-            margin-right: auto;
-            border:none;
-            font-size: 14px;
-            box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            outline:none;
-            background-color: rgba(255,255,255,0.7);
-            /* border: solid 1px rgba(255,255,255,0.8); */
-            border: 1px #d9d9d9 solid;
-            padding-left: 5px;
+        .layui-row{
+            margin-bottom: 10px;
+        }
+        #reqDes{
+            width: 672px;
+        }
+        .class,.area{
+            margin-right:10px;
         }
         #submit{
-            cursor: pointer;
-        }
-        .area{
-            width:300px;
-            height:50px;
-            display: block;
-            margin-top:15px;
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 0px;
-        }
-        .area input{
-            margin:0px !important;
-            padding-right:-5px !important;
-            margin-right: 15px !important;
-            width:90px !important;
-            display: inline-block !important;
-        }
-        .area :last-child{
-            margin-right: 0px !important;
-        }
-        .names{
-            float:left;
-            /* width: 200px; */
-            /* height: 100px; */
-            margin-right:20px;
-            /* border:solid 1px gray; */
-        }
-        .names div{
-            width:150px;
-            height:50px;
-            margin-top:15px;
-            /* border:solid 1px gray; */
-            line-height: 50px;
-            text-align: right;
+            width:217px;
+            background-color:#5FB878;
         }
     </style>
 </head>
 <body>
     <div class="container">
 
-        <div class="names">
-            <div>客户平台需求ID:</div>
-            <div>需求标题:</div>
-            <div>需求内容:</div>
-            <div>需求金额:</div>
-            <div>服务人数:</div>
-            <div>开始时间:</div>
-            <div>结束时间:</div>
-            <div>需求分类:</div>
-            <div>需求地点:</div>
-        </div>
-
-        <div id="params">
-            <input type="text" autocomplete="off" id="id" value="100001">
-            <input type="text" autocomplete="off" id="reqTitle" value="测试需求001">
-            <input type="text" autocomplete="off" id="reqDes" value="测试内容测试内容测试内容测试内容">
-            <input type="text" autocomplete="off" id="reqAmount" value="30000">
-            <input type="text" autocomplete="off" id="serNumber" value="3">
-            <input type="text" autocomplete="off" id="startTime" value="20200228000000">
-            <input type="text" autocomplete="off" id="endTime" value="20200230000000">
-            <input type="text" autocomplete="off" id="class" value="390">
-            <div class="area">
-                <input type="text" autocomplete="off" id="province" placeholder="省" value="2">
-                <input type="text" autocomplete="off" id="city" placeholder="市" value="3">
-                <input type="text" autocomplete="off" id="district" placeholder="区" value="4">
+        <form class="layui-form">
+            <div class="layui-card">
+                <div class="layui-card-header">需求发布</div>
+                <div class="layui-card-body">
+                    <div class="layui-row">
+                        <label class="layui-form-label">分类</label>
+                        <input type="hidden" id="class">
+                        <div class="layui-col-md3 class">
+                            <select lay-verify="required" lay-filter="class1" id="class1"></select>
+                        </div>
+                        <div class="layui-col-md3 class">
+                            <select lay-verify="required" lay-filter="class2" id="class2" disabled></select>
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <label class="layui-form-label">客户需求ID</label>
+                        <div class="layui-col-md3">
+                            <input type="text" autocomplete="off" class="layui-input" id="id">
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <label class="layui-form-label">需求标题</label>
+                        <div class="layui-col-md3">
+                            <input type="text" autocomplete="off" class="layui-input" id="reqTitle">
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <label class="layui-form-label">需求内容</label>
+                        <div class="layui-input-block">
+                            <textarea class="layui-textarea" id="reqDes"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <label class="layui-form-label">需求金额</label>
+                        <div class="layui-col-md3">
+                            <input type="text" autocomplete="off" class="layui-input" id="reqAmount">
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <label class="layui-form-label">服务人数</label>
+                        <div class="layui-col-md3">
+                            <input type="text" autocomplete="off" class="layui-input" id="serNumber">
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <label class="layui-form-label">开始时间</label>
+                        <div class="layui-col-md3">
+                            <input type="text" autocomplete="off" class="layui-input" id="startTime">
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <label class="layui-form-label">结束时间</label>
+                        <div class="layui-col-md3">
+                            <input type="text" autocomplete="off" class="layui-input" id="endTime">
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <label class="layui-form-label">需求地点</label>
+                        <div class="layui-col-md3 area">
+                            <select lay-verify="required" lay-filter="province" id="province"></select>
+                        </div>
+                        <div class="layui-col-md3 area">
+                            <select lay-verify="required" lay-filter="city" id="city" disabled></select>
+                        </div>
+                        <div class="layui-col-md3 area">
+                            <select lay-verify="required" lay-filter="district" id="district" disabled></select>
+                        </div>
+                    </div>
+                    <div class="layui-row btn-row">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" id="submit" >提交</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <input type="button" id="submit" value="提交">
-        </div>
+        </form>
 
     </div>
 </body>
@@ -123,78 +130,225 @@
 <script src="/js/md5.js"></script>
 <script src="/js/xye-sign.js"></script>
 <script src="/js/xye-params.js"></script>
+<script src="/layui/layui.js"></script>
 <script src="https://www.xiaoyuer.net/js/G/BaseClassifyJson.js"></script>
 <script src="https://www.xiaoyuer.net/js/open/area.js"></script>
 <script>
 
-    // console.log(XYE.categoryData);
-    console.log(areaArray);
-    // for (const i in areaArray) {
-    //     console.log(areaArray[i]);
-    // }
+    layui.use(['layer','form','laydate'],function(){
+        var layer = layui.layer;
+        var form = layui.form;
+        var laydate = layui.laydate;
 
-    var params;//参数
-    function initParams(){
-        //获取动小鱼儿态口令
-        $.ajax({
-            url:baseUrl + '/open-api/genKey',
-            type:'get',
-            data:{
-                xyeAct:xyeAct,
-                openNo:openNo,
-                secret:secret
-            },
-            dataType:'json',
-            async: false, // 同步
-            success:function(json){
-                console.log(json);
-                if(json.code == '00000'){
-                    var timetamp = new Date().format('yyyyMMddhhmmss');
-                    params = {
-                        'xyeAct':xyeAct,
-                        'openNo':openNo,
-                        'token':json.token,
-                        'timestamp':timetamp,
-                        'id':$('#id').val(),
-                        'reqTitle':$('#reqTitle').val(),
-                        'reqDes':$('#reqDes').val(),
-                        'reqAmount':$('#reqAmount').val(),
-                        'serNumber':$('#serNumber').val(),
-                        'startTime':$('#startTime').val(),
-                        'endTime':$('#endTime').val(),
-                        'class':$('#class').val(),
-                        'province':$('#province').val(),
-                        'city':$('#city').val(),
-                        'district':$('#district').val()
-                    };
-                    console.log(params);
+        laydate.render({
+            elem: '#startTime',
+            type: 'datetime'
+        });
+
+        laydate.render({
+            elem: '#endTime',
+            type: 'datetime'
+        });
+
+        class1Render();
+        provinceRender();
+
+        function class1Render(){
+            var classHtml = '<option value="none">请选择</option>';
+            for (const i in XYE.categoryData) {
+                var c = XYE.categoryData[i];
+                var tag = '<option value="' + c.id + '">' + c.name + '</option>';
+                classHtml += tag;
+            }
+            // console.log(classHtml);
+            $('#class1').html(classHtml);
+            form.render('select');
+        }
+
+        function class2Render(class1Id){
+            var classHtml = '<option value="">请选择</option>';
+            for (const i in XYE.categoryData) {
+                var c = XYE.categoryData[i];
+                // console.log(c);
+                if(c.id == class1Id){
+                    for (const j in c.items) {
+                        var tag = '<option value="' + c.items[j].id + '">' + c.items[j].name + '</option>';
+                        classHtml += tag;
+                    }
                 }
             }
-        })
-    }
+            // console.log(classHtml);
+            $('#class2').html(classHtml);
+            // form.render('select');
+        }
 
-    $('#submit').click(function(){
-        //初始化参数
-        initParams();
-        //参数加签
-        //排除项
-        var ignoreList = ['reqDes'];
-        //不同的引用
-        var paramsList = JSON.parse(JSON.stringify(params));
-        params.sign = sign(paramsList,ignoreList,secret);
-        $.ajax({
-            url:baseUrl + '/open-api/trade/require/release',
-            type:'post',
-            data:params,
-            dataType:"json",
-            success:function(json){
-                console.log(json);
-                if(json.code == '00000'){
-                    alert('发布成功！');
-                }else{
-                    alert(json.msg);
+        form.on('select(class1)', function(data){
+            // console.log(data.value);
+            if(data.value != 'none'){
+                // $('#class2').prop('disabled','');
+                $('#class2').removeAttr("disabled"); 
+                class2Render(data.value);
+            }else{
+                console.log('none');
+                $('#class2').html('');
+                $('#class2').attr("disabled",true); 
+            }
+            $('#class').val('');
+            form.render('select');
+        });
+
+        form.on('select(class2)', function(data){
+            $('#class').val(data.value);
+        });
+
+
+        
+
+        function provinceRender(){
+            var areaHtml = '<option value="none">请选择</option>';
+            for (const i in areaArray) {
+                // console.log(areaArray[i]);
+                var p = areaArray[i];
+                var tag = '<option value="' + p.id + '">' + p.name + '</option>';
+                areaHtml += tag;
+            }
+            $('#province').html(areaHtml);
+            form.render('select');
+        }
+
+        function cityRender(provinceId){
+            var areaHtml = '<option value="none">请选择</option>';
+            for (const i in areaArray) {
+                var p = areaArray[i];
+                // console.log(p);
+                if(p.id == provinceId){
+                    for (const j in p.children) {
+                        var tag = '<option value="' + p.children[j].id + '">' + p.children[j].name + '</option>';
+                        areaHtml += tag;
+                    }
                 }
             }
+            // console.log(areaHtml);
+            $('#city').html(areaHtml);
+            // form.render('select');
+        }
+
+        function districtRender(provinceId,cityId){
+            var areaHtml = '<option value="none">请选择</option>';
+            for (const i in areaArray) {
+                var p = areaArray[i];
+                // console.log(p);
+                if(p.id == provinceId){
+                    for (const j in p.children) {
+                        if(p.children[j].id == cityId){
+                            for (const l in p.children[j].children) {
+                                var tag = '<option value="' + p.children[j].children[l].id + '">' + p.children[j].children[l].name + '</option>';
+                                areaHtml += tag;
+                            }
+                        }
+                    }
+                }
+            }
+            // console.log(areaHtml);
+            $('#district').html(areaHtml);
+            // form.render('select');
+        }
+
+        form.on('select(province)', function(data){
+            if(data.value != 'none'){
+                // $('#class2').prop('disabled','');
+                $('#city').removeAttr("disabled"); 
+                cityRender(data.value);
+            }else{
+                // console.log('none');
+                $('#city').html('');
+                $('#district').html('');
+                $('#city').attr("disabled",true); 
+                $('#district').attr("disabled",true); 
+            }
+            form.render('select');
+        });
+
+        form.on('select(city)', function(data){
+            if(data.value != 'none'){
+                // $('#class2').prop('disabled','');
+                $('#district').removeAttr("disabled"); 
+                var provinceId = $('#province').val();
+                // console.log('provinceId:' + provinceId);
+                districtRender(provinceId,data.value);
+            }else{
+                // console.log('none');
+                $('#district').html('');
+                $('#district').attr("disabled",true); 
+            }
+            form.render('select');
+        });
+
+        
+    
+        var params;//参数
+        function initParams(){
+            //获取动小鱼儿态口令
+            $.ajax({
+                url:baseUrl + '/open-api/genKey',
+                type:'get',
+                data:{
+                    xyeAct:xyeAct,
+                    openNo:openNo,
+                    secret:secret
+                },
+                dataType:'json',
+                async: false, // 同步
+                success:function(json){
+                    console.log(json);
+                    if(json.code == '00000'){
+                        var timetamp = new Date().format('yyyyMMddhhmmss');
+                        params = {
+                            'xyeAct':xyeAct,
+                            'openNo':openNo,
+                            'token':json.token,
+                            'timestamp':timetamp,
+                            'id':$('#id').val(),
+                            'reqTitle':$('#reqTitle').val(),
+                            'reqDes':$('#reqDes').val(),
+                            'reqAmount':$('#reqAmount').val(),
+                            'serNumber':$('#serNumber').val(),
+                            'startTime':$('#startTime').val(),
+                            'endTime':$('#endTime').val(),
+                            'class':$('#class').val(),
+                            'province':$('#province').val(),
+                            'city':$('#city').val(),
+                            'district':$('#district').val()
+                        };
+                        console.log(params);
+                    }
+                }
+            })
+        }
+    
+        $('#submit').click(function(){
+            //初始化参数
+            initParams();
+            //参数加签
+            //排除项
+            var ignoreList = ['reqDes'];
+            //不同的引用
+            var paramsList = JSON.parse(JSON.stringify(params));
+            params.sign = sign(paramsList,ignoreList,secret);
+            $.ajax({
+                url:baseUrl + '/open-api/trade/require/release',
+                type:'post',
+                data:params,
+                dataType:"json",
+                success:function(json){
+                    console.log(json);
+                    if(json.code == '00000'){
+                        layer.msg('发布成功！');
+                    }else{
+                        layer.msg(json.msg);
+                    }
+                }
+            });
         });
     });
 

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>account</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            background-color: #F2F2F2;
+        }
+        .container{
+            width:900px;
+            height:800px;
+            /* border:solid 1px gray; */
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+        .layui-row{
+            margin-bottom: 10px;
+        }
+        #submit{
+            width:217px;
+            background-color:#5FB878;
+        }
+        .layui-card-body *{
+            font-size: 12px;
+        }
+        .layui-col-md3{
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+            <div class="layui-card">
+                <div class="layui-card-header">颁发客户号</div>
+                <div class="layui-card-body">
+                    <div class="layui-row">
+                        <label class="layui-form-label">手机号</label>
+                        <div class="layui-col-md3">
+                            <input type="text" autocomplete="off" class="layui-input" id="cellphone">
+                        </div>
+                        <div class="layui-col-md3">
+                            <button class="layui-btn" id="submit" >生成客户号</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</body>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/md5.js"></script>
+<script src="/js/xye-sign.js"></script>
+<script src="/js/xye-params.js"></script>
+<script src="/layui/layui.js"></script>
+<script>
+
+    layui.use(['layer'],function(){
+        var layer = layui.layer;
+        
+
+    
+        $('#submit').click(function(){
+            $.ajax({
+                url:baseUrl + '/openGen/genAccount',
+                type:'get',
+                data:{
+                    account:$('#cellphone').val()
+                },
+                dataType:"json",
+                success:function(json){
+                    console.log(json);
+                    if(json.code == 0){
+                        layer.msg('生成成功！');
+                    }else{
+                        layer.msg(json.msg);
+                    }
+                }
+            });
+        });
+
+
+        
+
+    });
+
+
+
+</script>
+</html>
