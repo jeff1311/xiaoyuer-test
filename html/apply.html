@@ -49,7 +49,7 @@
             margin-bottom: 10px;
         }
         #submit{
-            width:217px;
+            width:218px;
             background-color:#5FB878;
         }
         #add{
@@ -77,7 +77,7 @@
                     <div class="layui-row">
                         <label class="layui-form-label">需求ID</label>
                         <div class="layui-col-md3 first-row">
-                            <input type="text" autocomplete="off" class="layui-input" name="reqId">
+                            <input type="text" autocomplete="off" class="layui-input" id="reqId">
                         </div>
                         <div class="layui-col-md3 first-row">
                             <button class="layui-btn" id="add"><i class="layui-icon">&#xe608;</i> 增加服务者</button>
@@ -87,25 +87,25 @@
                         <div class="layui-row servicer">
                             <label class="layui-form-label">服务者01</label>
                             <div class="layui-col-md3">
-                                <input type="text" autocomplete="off" class="layui-input" placeholder="手机号" name="cellphone">
+                                <input type="text" autocomplete="off" class="layui-input" placeholder="手机号" name="cellphone" value="18761637019">
                             </div>
                             <div class="layui-col-md3">
-                                <input type="text" autocomplete="off" class="layui-input" placeholder="身份证号"name="certNo">
+                                <input type="text" autocomplete="off" class="layui-input" placeholder="身份证号"name="certNo" value="110101199003074733">
                             </div>
                             <div class="layui-col-md3">
-                                <input type="text" autocomplete="off" class="layui-input" placeholder="报名金额" name="amount">
+                                <input type="text" autocomplete="off" class="layui-input" placeholder="报名金额" name="amount" value="100">
                             </div>
                         </div>
                     </div>
                     <div class="layui-row callbackUrl">
                         <label class="layui-form-label">回调地址</label>
                         <div class="layui-input-block">
-                            <input type="text" autocomplete="off" class="layui-input" id="callbackUrl">
+                            <input type="text" autocomplete="off" class="layui-input" id="callbackUrl" value="https://www.xiaoyuer.com">
                         </div>
                     </div>
                     <div class="layui-row btn-row">
                         <div class="layui-input-block">
-                            <button class="layui-btn" id="submit" >立即报名</button>
+                            <button class="layui-btn" id="submit">立即报名</button>
                         </div>
                     </div>
 
@@ -206,10 +206,10 @@
             initParams();
             //参数加签
             //排除项
-            var ignoreList = ['reqDes'];
+            var ignoreList = [];
             //不同的引用
-            var paramsList = JSON.parse(JSON.stringify(params));
-            params.sign = sign(paramsList,ignoreList,secret);
+            var paramList = JSON.parse(JSON.stringify(params));
+            params.sign = sign(paramList,ignoreList,secret);
             $.ajax({
                 url:baseUrl + '/open-api/trade/require/apply',
                 type:'post',
@@ -218,7 +218,8 @@
                 success:function(json){
                     console.log(json);
                     if(json.code == '00000'){
-                        layer.msg('报名成功！');
+                        // layer.msg('报名成功！');
+                        window.location.href = json.depositUrl;
                     }else{
                         layer.msg(json.msg);
                     }

@@ -20,7 +20,9 @@ Date.prototype.format = function(fmt) {
     return fmt; 
 }
 
-
+String.prototype.replaceAll = function(s1, s2) {
+    return this.replace(new RegExp(s1, "gm"), s2);
+}
 
 
 
@@ -47,6 +49,7 @@ function sign(params,ignoreList,secret){
         sign += params[keyArr[i]];
     }
     sign += secret;
+    console.log(sign);
     sign = encodeURIComponent(sign);
     console.log(sign);
     //md5加密并转为大写

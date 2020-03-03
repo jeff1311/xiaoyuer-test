@@ -39,7 +39,7 @@
             margin-right:10px;
         }
         #submit{
-            width:217px;
+            width:218px;
             background-color:#5FB878;
         }
     </style>
@@ -47,10 +47,10 @@
 <body>
     <div class="container">
 
-        <form class="layui-form">
-            <div class="layui-card">
-                <div class="layui-card-header">需求发布</div>
-                <div class="layui-card-body">
+        <div class="layui-card">
+            <div class="layui-card-header">需求发布</div>
+            <div class="layui-card-body">
+                <form class="layui-form">
                     <div class="layui-row">
                         <label class="layui-form-label">分类</label>
                         <input type="hidden" id="class">
@@ -115,14 +115,14 @@
                             <select lay-verify="required" lay-filter="district" id="district" disabled></select>
                         </div>
                     </div>
+                </form>
                     <div class="layui-row btn-row">
                         <div class="layui-input-block">
-                            <button class="layui-btn" id="submit" >提交</button>
+                            <button class="layui-btn" id="submit" >发布需求</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
 
     </div>
 </body>
@@ -313,8 +313,8 @@
                             'reqDes':$('#reqDes').val(),
                             'reqAmount':$('#reqAmount').val(),
                             'serNumber':$('#serNumber').val(),
-                            'startTime':$('#startTime').val(),
-                            'endTime':$('#endTime').val(),
+                            'startTime':$('#startTime').val().replaceAll('-','').replaceAll(' ','').replaceAll(':',''),
+                            'endTime':$('#endTime').val().replaceAll('-','').replaceAll(' ','').replaceAll(':',''),
                             'class':$('#class').val(),
                             'province':$('#province').val(),
                             'city':$('#city').val(),
@@ -343,7 +343,7 @@
                 success:function(json){
                     console.log(json);
                     if(json.code == '00000'){
-                        layer.msg('发布成功！');
+                        layer.alert('发布成功！需求ID:' + json.reqId);
                     }else{
                         layer.msg(json.msg);
                     }

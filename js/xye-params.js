@@ -1,4 +1,4 @@
-// var baseUrl = "https://www.yu.com";
+// var baseUrl = "http://192.168.6.237:8222";
 var baseUrl = "https://www1.xiaoyuer.net";
 
 // var xyeAct = "18761637019_36";
